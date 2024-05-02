@@ -37,7 +37,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     setTimeout(() => {
       setAlertStatus('');
-    }, 3000)
+    }, 6000)
   }, [alertStatus])
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
       }
 
 
-      const response = await fetch('/api/send-email', {
+      const response = await fetch('/api/integrate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,13 +59,13 @@ const Home: React.FC = () => {
       });
 
       const res = await response.json()
-
       if (res?.error) return setAlertStatus("error")
 
       setAlertStatus("success")
       form.reset();
     } catch (error: any) {
-      console.error("Error occurred while sending email.")
+      console.error(error)
+      setAlertStatus("error")
 
     } finally {
       router.refresh();
@@ -75,14 +75,14 @@ const Home: React.FC = () => {
   const AlertMessage = () => {
     if (!alertStatus) return null;
     if (alertStatus === 'success')
-      return <div className='flex justify-start items-start gap-1 text-green-500 w-[80%] text-sm'>
+      return <div className='flex mt-5 justify-start items-start gap-1 text-green-500 w-[80%] text-sm'>
         <CheckCircleIcon className='w-6 h-6' />
-        <h1 className='inline-block'>I have recieved your email. I will contact you as soon as possible. Thanks for reaching</h1>
+        <h1 className='inline-block'>Your account has been integrated successfully!</h1>
       </div>
 
-    return <div className='flex justify-start items-start gap-1 text-red-500 w-[80%] text-sm'>
+    return <div className='flex mt-5 justify-start items-start gap-1 text-red-500 w-[80%] text-sm'>
       <ExclamationCircleIcon className='w-6 h-6' />
-      <h1 className='inline-block'>There has been an error while sending your email. Please try again</h1>
+      <h1 className='inline-block'>There has been an error while integrating your account. Please try again.</h1>
     </div>
   }
 

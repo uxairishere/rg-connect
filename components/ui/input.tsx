@@ -11,7 +11,7 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, errors, label, htmlFor, type, ...props }, ref) => {
     return (
-      <label className={cn("flex flex-col mx-auto w-full max-w-3xl text-sm font-medium ",
+      <label className={cn("flex flex-col mx-auto w-full text-sm font-medium ",
         label && "gap-1"
       )}
         htmlFor={htmlFor}
