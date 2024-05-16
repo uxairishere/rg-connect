@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
     try {
         const request = await req.json();
-        const { customerId, loginCode, username, password } = request;
+        const { profileId, loginCode, username, password } = request;
 
         const payload = {
             auth: { username, password, loginCode },
-            customerId,
+            profileId,
             type: 'realGreen',
         }
 
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         )
 
         if(response?.status !== 201){
-            console.error('Request failed from server side:', response?.status);
+            console.error('Request failed from server side:', response);
             return NextResponse.json({
                 error: 'An error occurred while sending request',
             });

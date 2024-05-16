@@ -1,8 +1,8 @@
 import * as z from 'zod';
 
 export const formSchema = z.object({
-    customerId: z.string().min(1, {
-        message: "Customer ID is required",
+    profileId: z.string().min(1, {
+        message: "Profile ID is required",
     }),
     loginCode: z.string().min(1, {
         message: "Login code is required",

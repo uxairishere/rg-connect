@@ -13,7 +13,7 @@ import * as z from 'zod';
 
 
 interface FormData {
-  customerId: string;
+  profileId: string;
   username: string;
   password: string;
   loginCode: string;
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      customerId: "",
+      profileId: "",
       username: "",
       password: "",
       loginCode: "",
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const payload: FormData = {
-        customerId: values.customerId,
+        profileId: values.profileId,
         username: values.username,
         password: values.password,
         loginCode: values.loginCode
@@ -101,20 +101,20 @@ const Home: React.FC = () => {
             className="w-full"
           >
             <FormField
-              name="customerId"
+              name="profileId"
               render={({ field }) => (
                 <FormItem className="mb-4 relative">
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      label='Customer ID'
-                      htmlFor='customerId'
+                      label='Profile ID'
+                      htmlFor='profileId'
                       type="text"
-                      id="customerId"
+                      id="profileId"
                       {...field}
                     />
                   </FormControl>
-                  {form.formState.errors.customerId && <span className="absolute rounded-sm top-1/2 transform -translate-y-1/3 border border-red-500/25 p-1 right-1  text-red-500/70 text-xs">{form.formState.errors.customerId.message}</span>}
+                  {form.formState.errors.profileId && <span className="absolute rounded-sm top-1/2 transform -translate-y-1/3 border border-red-500/25 p-1 right-1  text-red-500/70 text-xs">{form.formState.errors.profileId.message}</span>}
                 </FormItem>
               )}
             />
